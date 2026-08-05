@@ -1,0 +1,21 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "skills-aq",
+  "description": "Skills internos de Claude Code para el equipo de AquaChile",
+  "owner": {
+    "name": "Javier Aliste",
+    "email": "javier.aliste@aquachile.com"
+  },
+  "plugins": [
+    {
+      "name": "skills-aq",
+      "description": "Bundle de skills internos de AquaChile: genera-handoff",
+      "author": {
+        "name": "Javier Aliste",
+        "email": "javier.aliste@aquachile.com"
+      },
+      "category": "productivity",
+      "source": "./plugins/skills-aq"
+    }
+  ]
+}

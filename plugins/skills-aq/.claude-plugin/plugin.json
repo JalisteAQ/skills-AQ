@@ -1,0 +1,9 @@
+{
+  "name": "skills-aq",
+  "description": "Bundle de skills internos de AquaChile: genera-handoff",
+  "version": "0.1.0",
+  "author": {
+    "name": "Javier Aliste",
+    "email": "javier.aliste@aquachile.com"
+  }
+}
