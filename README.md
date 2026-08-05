@@ -1,7 +1,7 @@
 # skills-AQ
 
-Marketplace privado de Claude Code con los skills internos de AquaChile. Repo privado; instalarlo
-requiere ser colaborador en GitHub.
+Marketplace de Claude Code con algunos skills para el equipo de Excelencia Operacional de AquaChile,
+agrupados en un plugin instalable con el comando de abajo.
 
 ## Instalar
 

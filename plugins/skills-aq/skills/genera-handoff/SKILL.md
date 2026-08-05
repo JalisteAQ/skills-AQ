@@ -1,83 +1,82 @@
 ---
 name: genera-handoff
-description: Use when the user asks to generate a handoff of the current session so another agent with zero context can pick it up - produces a task-specific document plus a prompt to paste into the next session
-argument-hint: "focus or task for the next session (optional)"
+description: Usar cuando pidan generar un handoff de sesión - produce el documento de retoma en disco y el prompt para pegar en la siguiente sesión
+argument-hint: "foco o tarea para la siguiente sesión (opcional)"
 disable-model-invocation: true
 ---
 
-# Generate a session handoff
+# Generar un handoff de sesión
 
-Two deliverables, always both: (1) a document on disk that another agent with zero prior context can
-read and resume the task from without asking anyone anything, and (2) a short prompt, ready to copy and
-paste, that kicks off that next session.
+Dos entregables, siempre ambos: (1) un documento en disco que otro agente sin contexto previo pueda
+leer y desde el cual retomar la tarea sin preguntarle nada a nadie, y (2) un prompt corto, listo para
+copiar y pegar, que arranca esa siguiente sesión.
 
-## Language of the handoff document
+## Idioma del documento de handoff
 
-Write the handoff document itself in whichever language the current session has actually been
-conducted in with the user, inferred from the conversation. Do not default to any fixed language and do
-not ask - just match what's already there. These skill instructions stay in English regardless of the
-document's language.
+Escribe el documento de handoff en el idioma en que efectivamente se dio la sesión actual con el
+usuario, inferido de la conversación. No usar un idioma fijo por defecto ni preguntar: solo seguir el
+que ya está en uso.
 
-## Before writing
+## Antes de escribir
 
-1. If the user passed an argument when invoking the skill, treat it as the focus of the next session:
-   what that session should do first, and tailor the document to that.
-2. Load the `docs-que-sobreviven` skill (Skill tool) before drafting. This document is exactly the kind
-   of artifact that skill audits, and its rules (no session deixis, provenance for every claim, pending
-   items with an experiment, absolute pointers) apply in full here. Don't copy them, invoke the skill.
-3. Detect the active repo (`git rev-parse --show-toplevel` in the current working directory):
-   - If there is a repo: the document goes in `<repo>/docs/handoffs/YYYY-MM-DD-<task-slug>.md`, with
-     today's date in absolute form (`2026-08-05`, never "today").
-   - If there is NO repo (a loose session in a directory without git): use the current session's
-     scratchpad, and say so explicitly in the chat - that path is ephemeral and no other session will
-     see it unless someone moves it.
-4. Don't commit the file on your own. It's delivered written; the commit is whoever asked for it's call.
+1. Si el usuario pasó un argumento al invocar el skill, trátalo como el foco de la siguiente sesión: qué
+   debería hacer primero esa sesión, y ajusta el documento a eso.
+2. Cada afirmación del documento debe tener de dónde sale (archivo, commit, comando corrido): nada de
+   deixis de sesión ("como vimos", "la sesión anterior") que no signifique nada para quien nunca estuvo
+   en esta conversación.
+3. Detecta el repo activo (`git rev-parse --show-toplevel` en el directorio de trabajo actual):
+   - Si hay repo: el documento va en `<repo>/docs/handoffs/YYYY-MM-DD-<slug-de-la-tarea>.md`, con la
+     fecha de hoy en forma absoluta (`2026-08-05`, nunca "hoy").
+   - Si NO hay repo (una sesión suelta en un directorio sin git): usa el scratchpad de la sesión actual,
+     y dilo explícitamente en el chat, esa ruta es efímera y ninguna otra sesión la va a ver a menos que
+     alguien la mueva.
+4. No commitear el archivo por cuenta propia. Se entrega escrito; el commit lo decide quien lo pidió.
 
-## Document contents (task-specific, not a generic template)
+## Contenido del documento (específico a la tarea, no una plantilla genérica)
 
-No empty "just in case" sections. Only what this specific task needs to be resumed, at minimum:
+Sin secciones vacías "por si acaso". Solo lo que esta tarea puntual necesita para poder retomarse, como
+mínimo:
 
-1. **Title + absolute date.**
-2. **Hard rules that apply**, if any is critical to avoid breaking something on resume (which account to
-   push with, correct repo/branch, read-only mode, etc.) - only if relevant, above everything else.
-3. **What was asked**, in the requester's own words, not paraphrased.
-4. **Actionable current state**: what's done, what's missing, and the concrete next action (the next
-   command, file, or decision point, not "keep exploring").
-5. **Necessary context**: repos, absolute paths, branches, commands already run and their result,
-   relevant tools/MCPs for this task.
-6. **Decisions made and their rationale**, one line each, without narrating how they were reached.
-7. **Pending items**, each with its experiment or next step, estimated cost if applicable, and status
-   (`not run`, `partial`).
-8. **Absolute pointers**: files (`file.py:123`), commits, PRs, branches, relevant memories
-   (`[[memory-name]]` where applicable).
-9. **Suggested skills** for the next session, with the reason for each.
-10. Redact any secret, token, or credential before saving.
+1. **Título + fecha absoluta.**
+2. **Reglas duras que aplican**, si hay alguna crítica para no romper algo al retomar (con qué cuenta
+   pushear, repo/rama correcto, modo solo lectura, etc.), solo si aplica, por sobre todo lo demás.
+3. **Qué se pidió**, con las palabras de quien lo pidió, sin paráfrasis.
+4. **Estado actual accionable**: qué está hecho, qué falta, y la próxima acción concreta (el próximo
+   comando, archivo o punto de decisión, no "seguir explorando").
+5. **Contexto necesario**: repos, rutas absolutas, ramas, comandos ya corridos y su resultado,
+   herramientas/MCPs relevantes para esta tarea.
+6. **Decisiones tomadas y su razón**, una línea cada una, sin narrar cómo se llegó a ellas.
+7. **Pendientes**, cada uno con su experimento o próximo paso, costo estimado si aplica, y estado
+   (`no corrido`, `parcial`).
+8. **Punteros absolutos**: archivos (`archivo.py:123`), commits, PRs, ramas, memorias relevantes
+   (`[[nombre-de-memoria]]` donde aplique).
+9. **Skills sugeridos** para la siguiente sesión, con la razón de cada uno.
+10. Tapar cualquier secreto, token o credencial antes de guardar.
 
-Don't duplicate content that already lives in another artifact (spec, plan, PR, commit, issue): point to
-it by path or URL, don't copy it.
+No duplicar contenido que ya vive en otro artefacto (spec, plan, PR, commit, issue): apuntar a él por
+ruta o URL, no copiarlo.
 
-## When done writing
+## Al terminar de escribir
 
-Run the document through the `docs-que-sobreviven` smoke test: can someone who was never in this session
-understand what the document answers and execute the first useful action without asking anyone anything?
-If the answer is no, keep editing before handing it off.
+Pásale esta prueba al documento: ¿alguien que nunca estuvo en esta sesión entiende qué responde el
+documento y puede ejecutar la primera acción útil sin preguntarle nada a nadie? Si la respuesta es no,
+seguir editando antes de entregarlo.
 
-## Delivering
+## Entrega
 
-In the chat (not just the file), deliver two things:
+En el chat (no solo en el archivo), entrega dos cosas:
 
-1. The absolute path of the saved document.
-2. A ready-to-paste prompt block for the next session. That prompt:
-   - Is self-contained: it doesn't assume the next session saw this conversation.
-   - Explicitly states the handoff's absolute path and asks to read it first.
-   - Summarizes the task in 1-2 lines, so whoever pastes it knows what they're pasting without opening
-     the file.
-   - Doesn't repeat the document's full contents: the document is the source, the prompt is the pointer.
+1. La ruta absoluta del documento guardado.
+2. Un bloque de prompt listo para copiar y pegar en la siguiente sesión. Ese prompt:
+   - Es autocontenido: no asume que la siguiente sesión vio esta conversación.
+   - Indica explícitamente la ruta absoluta del handoff y pide leerlo primero.
+   - Resume la tarea en 1-2 líneas, para que quien lo pegue sepa qué está pegando sin abrir el archivo.
+   - No repite el contenido completo del documento: el documento es la fuente, el prompt es el puntero.
 
-Reference shape for that block (adapt to the case, don't copy literally):
+Forma de referencia para ese bloque (adaptar al caso, no copiar literal):
 
 ```
-Resume this task by first reading <absolute path to the handoff>. One-line context: <what's being
-done>. That document has the state, the pending items, and the next steps - don't ask for context
-that's already there.
+Retoma esta tarea leyendo primero <ruta absoluta al handoff>. Contexto en una línea: <qué se está
+haciendo>. Ese documento tiene el estado, los pendientes y los próximos pasos, no preguntes por
+contexto que ya está ahí.
 ```
