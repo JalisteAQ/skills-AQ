@@ -18,6 +18,11 @@ requiere ser colaborador en GitHub.
 
 ## Agregar o corregir un skill
 
-Editar `plugins/skills-aq/skills/<skill>/SKILL.md`, subir la versión en
-`plugins/skills-aq/.claude-plugin/plugin.json`, commitear y pushear a `main`. Cada compañero
-levanta el cambio con `/plugin install skills-aq`.
+Editar o agregar la carpeta en `plugins/skills-aq/skills/<skill>/SKILL.md`, commitear y pushear a
+`main`. El plugin no fija versión (usa el commit como referencia), así que no hay que subir ningún
+número. Cada compañero levanta los cambios corriendo:
+
+```bash
+/plugin marketplace update
+/plugin update
+```
