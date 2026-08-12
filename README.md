@@ -5,10 +5,25 @@ agrupados en un plugin instalable con el comando de abajo.
 
 ## Instalar
 
+Con git instalado (el repo es público, no se necesita cuenta de GitHub):
+
 ```bash
 /plugin marketplace add JalisteAQ/skills-AQ
 /plugin install skills-aq
 ```
+
+### Sin git: desde una carpeta compartida
+
+Para máquinas sin git, se instala apuntando a una copia local del repo (una carpeta de
+SharePoint/OneDrive sincronizada al disco, o una unidad de red):
+
+```bash
+/plugin marketplace add "C:\ruta\a\la\carpeta\skills-AQ"
+/plugin install skills-aq
+```
+
+Por esta vía la actualización es manual: cuando la carpeta sincronice cambios nuevos, correr
+`/plugin marketplace update skills-aq` y `/plugin update`.
 
 ## Skills que incluye
 
