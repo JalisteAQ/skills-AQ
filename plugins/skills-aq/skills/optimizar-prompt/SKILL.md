@@ -7,8 +7,8 @@ argument-hint: "el prompt o instrucción a optimizar (opcional)"
 # Optimizar un prompt
 
 Tomar un prompt o instrucción del usuario y entregarlo cumpliendo TODOS los checks de buenas
-prácticas de prompting de Anthropic. El resultado son dos cosas: el prompt optimizado listo para
-copiar, y la tabla de verificación con todos los checks en cumple.
+prácticas de prompting de Anthropic. La verificación es trabajo interno: lo único que se entrega
+en el chat es el prompt optimizado, en un bloque listo para copiar.
 
 ## A quién le hablas
 
@@ -24,25 +24,27 @@ Cuando un concepto técnico sea inevitable, explicarlo en una línea simple.
    `https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices`
    y derivar de ahí los checks aplicables a un prompt de usuario. Si el fetch falla (sin red, página
    caída), usar el checklist de respaldo de abajo y decirlo explícitamente en el chat.
-3. **Evaluar check por check.** Mostrar una tabla con cada check, su estado (cumple / no cumple) y
-   una línea de por qué. Los nombres de los checks van en el lenguaje del usuario (columna "Check"
-   de la tabla de respaldo), nunca con el vocabulario de la documentación.
+3. **Evaluar check por check, como trabajo interno.** La evaluación, sus resultados y el
+   razonamiento no se muestran en el chat.
 4. **Resolver los que no cumplen**, distinguiendo dos casos:
    - **Falta información** (no hay criterio de éxito, no se sabe qué formato debe tener el
      resultado, falta contexto de negocio): **preguntar al usuario, una pregunta a la vez, jamás
-     inferir ni rellenar por cuenta propia.** Ofrecer alternativas concretas para elegir cuando se
-     pueda.
+     inferir ni rellenar por cuenta propia.** Formular la pregunta en el lenguaje del usuario
+     (columna "Check" de la tabla de respaldo), nunca con el vocabulario de la documentación, y
+     ofrecer alternativas concretas para elegir cuando se pueda.
    - **Falla solo de forma** (las partes están mezcladas, el pedido va antes que el material, dice
-     qué evitar en vez de qué hacer): corregir directo, sin preguntar, explicando en una línea qué
-     se cambió y por qué. No requiere información nueva y preguntarlo sería fricción sin valor.
-5. **Entregar.** El prompt optimizado en un bloque listo para copiar, más la tabla de verificación
-   final con todos los checks en cumple.
+     qué evitar en vez de qué hacer): corregir directo, sin preguntar ni narrar el cambio. No
+     requiere información nueva.
+5. **Entregar únicamente el prompt optimizado**, en un bloque listo para copiar. Sin tabla de
+   verificación, sin análisis de los checks y sin explicaciones sobre su estructura: el usuario
+   copia el bloque y lo usa. La única nota admitida es el aviso del paso 2 cuando se usó el
+   checklist de respaldo.
 
 ## Checklist de respaldo
 
 Destilado de la página oficial. Se usa solo si el WebFetch del paso 2 falla, avisando.
 
-| # | Check (así se le nombra al usuario) | Regla detrás |
+| # | Check (así se le nombra al usuario cuando hay que preguntarle) | Regla detrás |
 |---|---|---|
 | 1 | La instrucción es clara y directa | Instrucciones explícitas y específicas sobre el resultado esperado; pasos numerados cuando el orden importa |
 | 2 | Explica el porqué | Dar el contexto y la motivación detrás de cada instrucción; el modelo generaliza desde la explicación |
