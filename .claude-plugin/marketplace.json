@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "skills-aq",
-      "description": "Bundle de skills internos de AquaChile: genera-handoff",
+      "description": "Bundle de skills internos de AquaChile; la lista completa está en el README",
       "author": {
         "name": "Javier Aliste",
         "email": "javier.aliste@aquachile.com"
