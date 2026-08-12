@@ -55,6 +55,17 @@ Destilado de la página oficial. Se usa solo si el WebFetch del paso 2 falla, av
 | 7 | Pide acción, no sugerencia | Verbos de acción explícitos ("crea", "implementa"), no "¿podrías sugerir...?" |
 | 8 | Se sabe cuándo quedó bien | Criterios de éxito observables; ejemplos del resultado esperado cuando el formato importa |
 
+## Largo del prompt
+
+El principio de Anthropic es estructura mínima necesaria: el mejor prompt es el más corto que
+logra el objetivo de forma confiable. Aplicarlo así:
+
+- **Tope duro: 500 palabras.** Antes de entregar, recortar redundancias (frases que repiten lo
+  mismo, ejemplos de más, adornos) hasta quedar bajo el tope sin perder ningún check.
+- Si la información imprescindible no cabe en 500 palabras, no entregar un prompt más largo por
+  cuenta propia: avisar al usuario qué lo excede y proponerle qué separar como material de
+  referencia aparte.
+
 ## Al terminar
 
 Pásale esta prueba al prompt optimizado: ¿una persona sin ningún contexto de la conversación
