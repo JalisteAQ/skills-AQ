@@ -15,6 +15,8 @@ agrupados en un plugin instalable con el comando de abajo.
 | Skill | Qué hace |
 | --- | --- |
 | `genera-handoff` | Genera un handoff de sesión task-specific más un prompt para pegar en la siguiente sesión |
+| `optimizar-prompt` | Verifica un prompt contra las buenas prácticas oficiales de Anthropic y lo entrega cumpliendo todos los checks; pregunta lo que falte, jamás infiere |
+| `generar-especificaciones` | Entrevista en lenguaje de negocio para convertir una idea en un spec markdown más un prompt optimizado que lo referencia, listo para desarrollar en otra sesión |
 
 ## Agregar o corregir un skill
 
